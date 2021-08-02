@@ -1,26 +1,44 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+import Header from './components/Header';
+import Main from './components/Main';
 
-function App() {
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      flexGrow: 1,
+    },
+    header: {
+      textAlign: 'center',
+      borderRadius: 0
+    },
+    main: {
+      textAlign: 'center',
+      height: '92vh',
+      borderRadius: 0
+    },
+  }),
+);
+
+export default function App() {
+  const classes = useStyles();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={classes.root}>
+      <Grid container spacing={0}>
+        <Grid item xs={12}>
+          <Paper className={classes.header}>
+            <Header />
+          </Paper>
+        </Grid>
+        <Grid item xs={12}>
+          <Paper className={classes.main}>
+            <Main />
+          </Paper>
+        </Grid>
+      </Grid>
     </div>
   );
 }
-
-export default App;
