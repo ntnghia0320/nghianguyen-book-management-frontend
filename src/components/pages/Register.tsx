@@ -202,7 +202,7 @@ export default function Register() {
         <>
             <form className={classes.container} noValidate>
                 <Card className={classes.card}>
-                    <CardHeader className={classes.header} title="Login App" />
+                    <CardHeader className={classes.header} title="Register" />
                     <CardContent>
                         <div>
                             <TextField

@@ -31,8 +31,8 @@ interface Book {
     title: string,
     author: string,
     description?: string,
-    createAt: string,
-    updateAt: string,
+    createdAt: string,
+    updatedAt: string,
     image?: string,
     enabled?: boolean,
     user?: User

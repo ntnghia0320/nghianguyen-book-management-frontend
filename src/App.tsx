@@ -16,8 +16,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     main: {
       textAlign: 'center',
-      height: '92vh',
-      borderRadius: 0
+      minHeight: '92vh',
+      maxWidth: '100%',
+      borderRadius: 0,
     },
   }),
 );

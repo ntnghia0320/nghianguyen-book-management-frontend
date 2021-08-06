@@ -1,6 +1,9 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
+import BooksList from './pages/BooksList';
+import Home from './pages/Home';
 import Login from './pages/Login';
+import MyBooksList from './pages/MyBooksList';
 import NotFound from './pages/NotFound';
 import Register from './pages/Register';
 
@@ -12,7 +15,7 @@ export default function Main() {
           <Redirect to='/home' />
         </Route>
         <Route exact path='/home'>
-          <h1>home</h1>
+          <Home />
         </Route>
         <Route path='/register'>
           <Register />
@@ -21,13 +24,13 @@ export default function Main() {
           <Login />
         </Route>
         <Route path='/books-list'>
-          <h1>books-list</h1>
+          <BooksList />
         </Route>
         <Route path='/books-list/search/keyword=:keyword'>
           <h1>/books-list/search/keyword=:keyword</h1>
         </Route>
         <Route path='/my-books-list'>
-          <h1>/my-books-list</h1>
+          <MyBooksList />
         </Route>
         <Route path='/book/:bookId'>
           <h1>/book/:bookId</h1>
