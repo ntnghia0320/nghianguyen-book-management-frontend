@@ -12,9 +12,8 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import getCurrentUser from '../services/user-info';
 import userService from '../services/user.service';
-import history from '../helpers/history';
 import HomeIcon from '@material-ui/icons/Home';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory, useLocation } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -92,7 +91,10 @@ export default function Header() {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null);
   const [isUser, setIsUser] = React.useState(false);
   const [isAdmin, setIsAdmin] = React.useState(false);
+  const [keyword, setKeyword] = React.useState('');
   const currentUser = getCurrentUser();
+  const history = useHistory();
+  const path = useLocation().pathname;
 
   React.useEffect(() => {
     if (currentUser) {
@@ -125,8 +127,17 @@ export default function Header() {
     handleMenuClose();
     userService.logOut();
     history.push('/home');
-    window.location.reload();
   }
+
+  const handleKeyDown = (event: any) => {
+    if (event.key === 'Enter') {
+      history.push(path + "?keyword=" + keyword);
+    }
+  }
+
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setKeyword(event.target.value);
+  };
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -192,7 +203,7 @@ export default function Header() {
       }
       {currentUser
         ? (
-          <>
+          <div>
             <MenuItem
               color="inherit"
               onClick={handleMobileMenuClose}
@@ -208,10 +219,10 @@ export default function Header() {
             >
               <p>Logout</p>
             </MenuItem>
-          </>
+          </div>
         )
         : (
-          <>
+          <div>
             <MenuItem
               color="inherit"
               onClick={handleMobileMenuClose}
@@ -230,7 +241,7 @@ export default function Header() {
             >
               <p>Register</p>
             </MenuItem>
-          </>
+          </div>
         )
       }
     </Menu>
@@ -252,7 +263,7 @@ export default function Header() {
             <HomeIcon />
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
-            Book Mana
+            Book Management
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -265,6 +276,8 @@ export default function Header() {
                 input: classes.inputInput,
               }}
               inputProps={{ 'aria-label': 'search' }}
+              onKeyDown={handleKeyDown}
+              onChange={onChange}
             />
           </div>
           <div className={classes.grow} />
@@ -291,7 +304,7 @@ export default function Header() {
             }
             {currentUser
               ? (
-                <>
+                <div>
                   <IconButton
                     edge="end"
                     aria-label="account of current user"
@@ -302,7 +315,7 @@ export default function Header() {
                   >
                     <AccountCircle />
                   </IconButton>
-                </>
+                </div>
               )
               : (
                 <>

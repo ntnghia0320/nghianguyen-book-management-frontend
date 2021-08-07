@@ -4,13 +4,13 @@ import currentUser from "./user-info";
 
 const API_URL = "http://localhost:8080/api/books";
 
-const getAllBook = async (orderBy: string, order: string, page: number, size: number) => {
-    const response = await axios.get(API_URL + `?orderBy=${orderBy}&order=${order}&page=${page}&size=${size}`);
+const getAllBook = async (orderBy: string, order: string, page: number, size: number, param: string) => {
+    const response = await axios.get(API_URL + `?orderBy=${orderBy}&order=${order}&page=${page}&size=${size}&${param}`);
     return response.data;
 };
 
-const getAllBookEnabled = async () => {
-    const response = await axios.get(API_URL + '/active-book');
+const getAllBookEnabled = async (page: number, param: string) => {
+    const response = await axios.get(API_URL + `/enabled-book?&page=${page}&size=8&${param}`);
     return response.data;
 };
 
@@ -19,8 +19,8 @@ const getBookById = async (bookId: number) => {
     return response.data;
 };
 
-const getBooksByUserId = async (page: number, size: number) => {
-    const response = await axios.get(API_URL + `/user/${currentUser().userId}?page=${page}&size=${size}`);
+const getBooksByUserId = async (page: number, size: number, param: string) => {
+    const response = await axios.get(API_URL + `/user/${currentUser().userId}?page=${page}&size=${size}&${param}`);
     return response.data;
 };
 
@@ -39,8 +39,8 @@ const addBook = async (book: Book) => {
     return response;
 };
 
-const updateBook = async (book: Book, bookId: number) => {
-    const response = await axios.put(API_URL + `/${bookId}/${currentUser().userId}`, JSON.stringify(book), { headers: authHeader() });
+const updateBook = async (book: Book, bookId: number, userId: number | undefined) => {
+    const response = await axios.put(API_URL + `/${bookId}/${userId}`, JSON.stringify(book), { headers: authHeader() });
     return response.data;
 };
 

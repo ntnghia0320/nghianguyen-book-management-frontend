@@ -26,9 +26,6 @@ export default function Main() {
         <Route path='/books-list'>
           <BooksList />
         </Route>
-        <Route path='/books-list/search/keyword=:keyword'>
-          <h1>/books-list/search/keyword=:keyword</h1>
-        </Route>
         <Route path='/my-books-list'>
           <MyBooksList />
         </Route>

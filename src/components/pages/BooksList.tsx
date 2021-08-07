@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStyles, makeStyles, Theme, withStyles } from '@material-ui/core/styles';
+import { alpha, createStyles, makeStyles, Theme, withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -12,7 +12,7 @@ import Paper from '@material-ui/core/Paper';
 import bookService from '../../services/book.service';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import VisibilityIcon from '@material-ui/icons/Visibility';
@@ -28,7 +28,6 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
-import AddBook from '../common/AddBook';
 
 const StyledTableCell = withStyles((theme: Theme) =>
     createStyles({
@@ -107,7 +106,6 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                         </TableSortLabel>
                     </StyledTableCell>
                 ))}
-                {/* <StyledTableCell>Enabled</StyledTableCell> */}
                 <StyledTableCell align={'right'}>View</StyledTableCell>
                 <StyledTableCell align={'right'}>Edit</StyledTableCell>
                 <StyledTableCell align={'right'}>Delete</StyledTableCell>
@@ -187,12 +185,41 @@ const useStyles = makeStyles((theme: Theme) =>
         icon: {
             color: 'red !important'
         },
+        search: {
+            borderRadius: theme.shape.borderRadius,
+            backgroundColor: alpha(theme.palette.common.white, 0.15),
+            '&:hover': {
+                backgroundColor: alpha(theme.palette.common.white, 0.25),
+            },
+            width: '50%',
+        },
+        searchIcon: {
+            padding: theme.spacing(0, 2),
+            height: '100%',
+            position: 'absolute',
+            pointerEvents: 'none',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
+        inputRoot: {
+            color: 'inherit',
+        },
+        inputInput: {
+            padding: theme.spacing(1, 1, 1, 0),
+            // vertical padding + font size from searchIcon
+            paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+            transition: theme.transitions.create('width'),
+            width: '100%',
+            [theme.breakpoints.up('md')]: {
+                width: '20ch',
+            },
+        },
     }),
 );
 
 export default function BooksList() {
     const classes = useStyles();
-    const [isModalAddBookOpen, setIsModalAddBookOpen] = React.useState(false);
     const [isModalEditBookOpen, setIsModalEditBookOpen] = React.useState(false);
     const [bookId, setBookId] = React.useState(-1);
     const [openDialog, setOpenDialog] = React.useState(false);
@@ -202,9 +229,10 @@ export default function BooksList() {
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [totalRows, setTotalRows] = React.useState(0);
     const [books, setBooks] = React.useState<Book[]>([]);
+    const param = useLocation().search.substr(1);
 
     React.useEffect(() => {
-        bookService.getAllBook(orderBy, order, page, rowsPerPage).then(
+        bookService.getAllBook(orderBy, order, page, rowsPerPage, param).then(
             (res) => {
                 setBooks(res.items);
                 setTotalRows(res.totalItems);
@@ -213,8 +241,8 @@ export default function BooksList() {
                 alert(error.message);
             }
         );
-        console.log('edit book list');
-    }, [order, orderBy, page, rowsPerPage]);
+        console.log('book list');
+    }, [order, orderBy, page, rowsPerPage, param]);
 
     const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Book) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -229,14 +257,6 @@ export default function BooksList() {
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
-    };
-
-    const openModalAddBook = () => {
-        setIsModalAddBookOpen(true);
-    };
-
-    const closeModalAddBook = () => {
-        setIsModalAddBookOpen(false);
     };
 
     const openModalEditBook = (bookId: number) => {
@@ -276,7 +296,7 @@ export default function BooksList() {
 
     const enabledBook = (book: Book, bookId: number) => {
         book.enabled = !book.enabled;
-        bookService.updateBook(book, bookId).then(
+        bookService.updateBook(book, bookId, book.user?.id).then(
             (res) => {
                 window.location.reload();
             },
@@ -310,7 +330,7 @@ export default function BooksList() {
                                         <TableCell align="right">{book.author}</TableCell>
                                         <TableCell align="right">{book.createdAt}</TableCell>
                                         <StyledTableCell align="right">
-                                            <Tooltip title={book.enabled ? 'Disable' : 'Enabled'}>
+                                            <Tooltip title={book.enabled ? 'Disable Book' : 'Enabled Book'}>
                                                 <Button
                                                     style={{ textTransform: 'none' }}
                                                     onClick={() => enabledBook(book, Number(book.id))}
@@ -372,34 +392,6 @@ export default function BooksList() {
                     onRowsPerPageChange={handleChangeRowsPerPage}
                 />
             </Paper>
-            <Modal
-                aria-labelledby="transition-modal-title"
-                aria-describedby="transition-modal-description"
-                className={classes.modal}
-                open={isModalAddBookOpen}
-                onClose={closeModalAddBook}
-                closeAfterTransition
-                BackdropComponent={Backdrop}
-                BackdropProps={{
-                    timeout: 500,
-                }}
-            >
-                <Fade in={isModalAddBookOpen}>
-                    <div className={classes.paperModal}>
-                        <Typography variant="h5" noWrap>
-                            Add Book
-                            <IconButton
-                                style={{ float: 'right' }}
-                                color="inherit"
-                                onClick={closeModalAddBook}
-                            >
-                                <CloseIcon />
-                            </IconButton>
-                        </Typography>
-                        <AddBook />
-                    </div>
-                </Fade>
-            </Modal>
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"

@@ -8,8 +8,8 @@ import CardActions from '@material-ui/core/CardActions';
 import CardHeader from '@material-ui/core/CardHeader';
 import Button from '@material-ui/core/Button';
 import authService from '../../services/auth.service';
-import history from "../../helpers/history";
 import CustomizedSnackbars from '../common/CustomizedSnackbars';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -89,6 +89,7 @@ const reducer = (state: State, action: Action): State => {
 export default function Login() {
     const classes = useStyles();
     const [state, dispatch] = useReducer(reducer, initialState);
+    const history = useHistory();
 
     useEffect(() => {
         if (state.username.trim() && state.password.trim()) {
@@ -114,7 +115,6 @@ export default function Login() {
             () => {
                 window.setTimeout(function () {
                     history.push('/home');
-                    window.location.reload();
                 }, 1000);
             },
             (error) => {

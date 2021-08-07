@@ -61,7 +61,7 @@ export default function EditBook(prop: Prop) {
         const dateTime = date + ' ' + time;
         book.updatedAt = dateTime;
 
-        bookService.updateBook(book, prop.bookId).then(
+        bookService.updateBook(book, prop.bookId, book.user?.id).then(
             () => {
                 setActiveSnackBar(!activeSnackBar);
                 setSnackBarMessage('Edit book Success');
