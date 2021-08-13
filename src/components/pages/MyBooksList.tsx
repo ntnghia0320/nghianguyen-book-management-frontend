@@ -109,6 +109,7 @@ export default function MyBooksList() {
     const [totalRows, setTotalRows] = React.useState(0);
     const [books, setBooks] = React.useState<Book[]>([]);
     const param = useLocation().search.substr(1);
+    const [change, setChange] = React.useState(false);
 
     React.useEffect(() => {
         bookService.getBooksByUserId(page, rowsPerPage, param).then(
@@ -121,7 +122,7 @@ export default function MyBooksList() {
             }
         );
         console.log('my book list');
-    }, [page, rowsPerPage, param]);
+    }, [page, rowsPerPage, param, change]);
 
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
@@ -153,6 +154,7 @@ export default function MyBooksList() {
         setBookId(bookId);
         setOpenDialog(true);
     }
+
     const handleCloseDialog = () => {
         setOpenDialog(false);
     }
@@ -160,7 +162,7 @@ export default function MyBooksList() {
     const handleSure = () => {
         bookService.deleteBook(bookId).then(
             (res) => {
-                window.location.reload();
+                reload();
             },
             (error) => {
                 alert(error.message)
@@ -172,6 +174,12 @@ export default function MyBooksList() {
     const handleNotSure = () => {
         setOpenDialog(false);
     }
+
+    const reload: Reload = () => {
+        setChange(!change);
+        closeModalAddBook();
+        closeModalEditBook();
+    };
 
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, totalRows - page * rowsPerPage);
 
@@ -228,7 +236,15 @@ export default function MyBooksList() {
                             <StyledTableRow key={book.id}>
                                 <StyledTableCell component="th" scope="row">{book.title}</StyledTableCell>
                                 <StyledTableCell align="right">{book.author}</StyledTableCell>
-                                <StyledTableCell align="right">{book.enabled ? 'Enabled' : 'Disable'}</StyledTableCell>
+                                <StyledTableCell align="right">
+                                    <Typography
+                                        color={book.enabled ? "primary" : "secondary"}
+                                        variant="subtitle1"
+                                        component="h2"
+                                    >
+                                        {book.enabled ? 'Enabled' : 'Disabled'}
+                                    </Typography>
+                                </StyledTableCell>
                                 <StyledTableCell align="right">
                                     <Tooltip title="View">
                                         <IconButton
@@ -304,7 +320,7 @@ export default function MyBooksList() {
                                 <CloseIcon />
                             </IconButton>
                         </Typography>
-                        <AddBook />
+                        <AddBook reload={reload} />
                     </div>
                 </Fade>
             </Modal>
@@ -332,7 +348,7 @@ export default function MyBooksList() {
                                 <CloseIcon />
                             </IconButton>
                         </Typography>
-                        <EditBook bookId={bookId} />
+                        <EditBook reload={reload} bookId={bookId} />
                     </div>
                 </Fade>
             </Modal>

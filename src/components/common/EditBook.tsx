@@ -7,7 +7,8 @@ import Button from "@material-ui/core/Button";
 import bookService from "../../services/book.service";
 
 interface Prop {
-    bookId: number
+    bookId: number,
+    reload: Reload
 }
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -28,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-export default function EditBook(prop: Prop) {
+export default function EditBook({ bookId, reload }: Prop) {
     const classes = useStyles();
     const bookDefault: Book = {} as Book;
     const [activeSnackBar, setActiveSnackBar] = React.useState(false);
@@ -37,7 +38,7 @@ export default function EditBook(prop: Prop) {
     const [book, setBook] = React.useState(bookDefault);
 
     React.useEffect(() => {
-        bookService.getBookById(prop.bookId).then(
+        bookService.getBookById(bookId).then(
             (res) => {
                 setBook(res);
             },
@@ -46,7 +47,8 @@ export default function EditBook(prop: Prop) {
             }
         );
         console.log('edit book');
-    }, [prop.bookId])
+        // eslint-disable-next-line
+    }, [])
 
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setBook({ ...book, [event.target.name]: event.target.value });
@@ -61,13 +63,13 @@ export default function EditBook(prop: Prop) {
         const dateTime = date + ' ' + time;
         book.updatedAt = dateTime;
 
-        bookService.updateBook(book, prop.bookId, book.user?.id).then(
+        bookService.updateBook(book, bookId, book.user?.id).then(
             () => {
                 setActiveSnackBar(!activeSnackBar);
                 setSnackBarMessage('Edit book Success');
                 setSnackBarStatus('success');
                 window.setTimeout(function () {
-                    window.location.reload();
+                    reload();
                 }, 1000);
             },
             (error) => {
@@ -128,7 +130,7 @@ export default function EditBook(prop: Prop) {
                     color="primary"
                     type='submit'
                 >
-                    Edit Book
+                    Update
                 </Button>
             </div>
             <CustomizedSnackbars active={activeSnackBar} status={snackBarStatus} autoHideDuration={4000} message={snackBarMessage} />

@@ -206,6 +206,7 @@ export default function Register() {
                     <CardContent>
                         <div>
                             <TextField
+                                required
                                 fullWidth
                                 id="firstName"
                                 type="text"
@@ -216,6 +217,7 @@ export default function Register() {
                                 onKeyPress={handleKeyPress}
                             />
                             <TextField
+                                required
                                 fullWidth
                                 id="lastName"
                                 type="text"
@@ -236,6 +238,7 @@ export default function Register() {
                                 onKeyPress={handleKeyPress}
                             />
                             <TextField
+                                required
                                 fullWidth
                                 id="email"
                                 type="email"
@@ -246,6 +249,7 @@ export default function Register() {
                                 onKeyPress={handleKeyPress}
                             />
                             <TextField
+                                required
                                 fullWidth
                                 id="password"
                                 type="password"

@@ -156,6 +156,7 @@ export default function Login() {
                     <CardContent>
                         <div>
                             <TextField
+                                required
                                 fullWidth
                                 id="username"
                                 type="email"
@@ -166,6 +167,7 @@ export default function Login() {
                                 onKeyPress={handleKeyPress}
                             />
                             <TextField
+                                required
                                 fullWidth
                                 id="password"
                                 type="password"
