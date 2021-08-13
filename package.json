@@ -28,7 +28,11 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
+<<<<<<< HEAD
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix reactFolderName && npm run build --prefix reactFolderName",
+=======
+    "heroku-postbuild": "npm install",
+>>>>>>> 1436a2a4198bcf186eae18ec14f055f32a7ed0b5
     "start": "node server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
