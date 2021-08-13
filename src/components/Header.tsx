@@ -11,9 +11,9 @@ import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import getCurrentUser from '../services/user-info';
-import userService from '../services/user.service';
 import HomeIcon from '@material-ui/icons/Home';
-import { NavLink, useHistory, useLocation } from 'react-router-dom';
+import { NavLink, Route, useHistory, useLocation } from 'react-router-dom';
+import authService from '../services/auth.service';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -100,7 +100,11 @@ export default function Header() {
     if (currentUser) {
       setIsAdmin(currentUser.role.includes("ROLE_ADMIN"));
       setIsUser(currentUser.role.includes("ROLE_USER"));
+    } else {
+      setIsAdmin(false);
+      setIsUser(false);
     }
+    console.log("header");
   }, [currentUser]);
 
   const isMenuOpen = Boolean(anchorEl);
@@ -125,7 +129,7 @@ export default function Header() {
 
   const logOut = () => {
     handleMenuClose();
-    userService.logOut();
+    authService.logout();
     history.push('/home');
   }
 
@@ -191,15 +195,26 @@ export default function Header() {
         </MenuItem>
       }
       {isAdmin &&
-        <MenuItem
-          color="inherit"
-          onClick={handleMobileMenuClose}
-          component={NavLink}
-          activeClassName={classes.highlighted}
-          to="/books-list"
-        >
-          <p>Books List</p>
-        </MenuItem>
+        <div>
+          <MenuItem
+            color="inherit"
+            onClick={handleMobileMenuClose}
+            component={NavLink}
+            activeClassName={classes.highlighted}
+            to="/books-list"
+          >
+            <p>Books List</p>
+          </MenuItem>
+          <MenuItem
+            color="inherit"
+            onClick={handleMobileMenuClose}
+            component={NavLink}
+            activeClassName={classes.highlighted}
+            to="/user-management"
+          >
+            <p>User Management</p>
+          </MenuItem>
+        </div>
       }
       {currentUser
         ? (
@@ -265,21 +280,23 @@ export default function Header() {
           <Typography className={classes.title} variant="h6" noWrap>
             Book Management
           </Typography>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
+          <Route path={['/home', '/my-books-list', '/books-list', '/user-management']}>
+            <div className={classes.search}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <InputBase
+                placeholder="Search…"
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                inputProps={{ 'aria-label': 'search' }}
+                onKeyDown={handleKeyDown}
+                onChange={onChange}
+              />
             </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ 'aria-label': 'search' }}
-              onKeyDown={handleKeyDown}
-              onChange={onChange}
-            />
-          </div>
+          </Route>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             {(isUser || isAdmin) &&
@@ -293,14 +310,24 @@ export default function Header() {
               </MenuItem>
             }
             {isAdmin &&
-              <MenuItem
-                color="inherit"
-                component={NavLink}
-                activeClassName={classes.highlighted}
-                to="/books-list"
-              >
-                <p>Books List</p>
-              </MenuItem>
+              <>
+                <MenuItem
+                  color="inherit"
+                  component={NavLink}
+                  activeClassName={classes.highlighted}
+                  to="/books-list"
+                >
+                  <p>Books List</p>
+                </MenuItem>
+                <MenuItem
+                  color="inherit"
+                  component={NavLink}
+                  activeClassName={classes.highlighted}
+                  to="/user-management"
+                >
+                  <p>User Management</p>
+                </MenuItem>
+              </>
             }
             {currentUser
               ? (

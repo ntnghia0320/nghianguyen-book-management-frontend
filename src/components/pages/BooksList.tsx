@@ -230,6 +230,7 @@ export default function BooksList() {
     const [totalRows, setTotalRows] = React.useState(0);
     const [books, setBooks] = React.useState<Book[]>([]);
     const param = useLocation().search.substr(1);
+    const [change, setChange] = React.useState(false);
 
     React.useEffect(() => {
         bookService.getAllBook(orderBy, order, page, rowsPerPage, param).then(
@@ -242,7 +243,7 @@ export default function BooksList() {
             }
         );
         console.log('book list');
-    }, [order, orderBy, page, rowsPerPage, param]);
+    }, [order, orderBy, page, rowsPerPage, param, change]);
 
     const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Book) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -279,7 +280,7 @@ export default function BooksList() {
     const handleSure = () => {
         bookService.deleteBook(bookId).then(
             (res) => {
-                window.location.reload();
+                reload();
             },
             (error) => {
                 alert(error.message)
@@ -292,13 +293,19 @@ export default function BooksList() {
         setOpenDialog(false);
     }
 
+    const reload: Reload = () => {
+        setChange(!change);
+        closeModalEditBook();
+    }
+
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, totalRows - page * rowsPerPage);
 
     const enabledBook = (book: Book, bookId: number) => {
         book.enabled = !book.enabled;
         bookService.updateBook(book, bookId, book.user?.id).then(
             (res) => {
-                window.location.reload();
+                reload();
+                console.log('enabledBook');
             },
             (error) => {
                 alert(error.message)
@@ -323,6 +330,11 @@ export default function BooksList() {
                             onRequestSort={handleRequestSort}
                         />
                         <TableBody>
+                            {books.length === 0 && (
+                                <StyledTableRow>
+                                    <StyledTableCell align="center" colSpan={7}>Empty</StyledTableCell>
+                                </StyledTableRow>
+                            )}
                             {books.map((book, index) => {
                                 return (
                                     <StyledTableRow key={`${book.title}${book.author}`}>
@@ -330,12 +342,18 @@ export default function BooksList() {
                                         <TableCell align="right">{book.author}</TableCell>
                                         <TableCell align="right">{book.createdAt}</TableCell>
                                         <StyledTableCell align="right">
-                                            <Tooltip title={book.enabled ? 'Disable Book' : 'Enabled Book'}>
+                                            <Tooltip title={book.enabled ? 'Disable Book' : 'Enable Book'}>
                                                 <Button
                                                     style={{ textTransform: 'none' }}
                                                     onClick={() => enabledBook(book, Number(book.id))}
                                                 >
-                                                    {book.enabled ? 'Enabled' : 'Disable'}
+                                                    <Typography
+                                                        color={book.enabled ? "primary" : "secondary"}
+                                                        variant="subtitle1"
+                                                        component="h2"
+                                                    >
+                                                        {book.enabled ? 'Enabled' : 'Disabled'}
+                                                    </Typography>
                                                 </Button>
                                             </Tooltip>
                                         </StyledTableCell>
@@ -416,7 +434,7 @@ export default function BooksList() {
                                 <CloseIcon />
                             </IconButton>
                         </Typography>
-                        <EditBook bookId={bookId} />
+                        <EditBook reload={reload} bookId={bookId} />
                     </div>
                 </Fade>
             </Modal>

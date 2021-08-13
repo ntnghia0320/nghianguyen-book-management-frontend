@@ -41,8 +41,8 @@ interface Book {
 interface Comment {
     id?: number,
     message: string,
-    createAt: string,
-    updateAt: string,
+    createdAt: string,
+    updatedAt: string,
     user?: User,
     book?: Book
 }
@@ -53,3 +53,7 @@ interface PropSnackBar {
     autoHideDuration: number,
     message: string
 }
+
+type Reload = () => void;
+
+type AddComment = (comment: Comment) => void;

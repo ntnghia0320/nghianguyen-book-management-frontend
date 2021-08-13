@@ -25,7 +25,11 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-export default function AddBook() {
+interface Prop {
+    reload: Reload;
+}
+
+export default function AddBook({ reload }: Prop) {
     const classes = useStyles();
     const bookDefault: Book = {} as Book;
     const [activeSnackBar, setActiveSnackBar] = React.useState(false);
@@ -49,12 +53,12 @@ export default function AddBook() {
         book.updatedAt = dateTime;
 
         bookService.addBook(book).then(
-            () => {
+            (res) => {
                 setActiveSnackBar(!activeSnackBar);
                 setSnackBarMessage('Add new book Success');
                 setSnackBarStatus('success');
                 window.setTimeout(function () {
-                    window.location.reload();
+                    reload();
                 }, 1000);
             },
             (error) => {
@@ -111,7 +115,7 @@ export default function AddBook() {
                     color="primary"
                     type='submit'
                 >
-                    Add Book
+                    Add
                 </Button>
             </div>
             <CustomizedSnackbars active={activeSnackBar} status={snackBarStatus} autoHideDuration={4000} message={snackBarMessage} />

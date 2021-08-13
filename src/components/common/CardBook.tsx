@@ -7,6 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { NavLink } from 'react-router-dom';
 
 const useStyles = makeStyles({
     root: {
@@ -34,7 +35,7 @@ interface Prop {
     book: Book
 }
 
-export default function CardBook(prop: Prop) {
+export default function CardBook({ book }: Prop) {
     const classes = useStyles();
 
     return (
@@ -43,15 +44,15 @@ export default function CardBook(prop: Prop) {
                 <CardMedia
                     component="img"
                     className={classes.media}
-                    image={prop.book.image}
+                    image={book.image}
                     title="Contemplative Reptile"
                 />
                 <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
-                        {prop.book.title}
+                        {book.title}
                     </Typography>
                     <Typography variant="body2" color="textSecondary" component="p">
-                        {prop.book.author}
+                        {book.author}
                     </Typography>
                 </CardContent>
             </CardActionArea>
@@ -59,6 +60,8 @@ export default function CardBook(prop: Prop) {
                 <Button
                     size="small"
                     color="primary"
+                    component={NavLink}
+                    to={`/book/${book.id}`}
                     className={classes.cardButton}
                 >
                     Learn More
