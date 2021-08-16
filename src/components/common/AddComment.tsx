@@ -32,31 +32,45 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function AddComment({ addComment }: Props) {
     const classes = useStyles();
     const [comment, setComment] = React.useState<Comment>({} as Comment);
+    const [helperText, setHelperText] = React.useState<String>("");
+    const [isError, setIsError] = React.useState<boolean>(false);
 
     const submit = (event: any) => {
         event.preventDefault();
 
-        const today = new Date();
-        const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-        const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        const dateTime = date + ' ' + time;
+        if (comment.message === "") {
+            setIsError(true);
+            setHelperText("Comment must not be null")
+        } else {
+            const today = new Date();
+            const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+            const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            const dateTime = date + ' ' + time;
 
-        comment.createdAt = dateTime;
-        comment.updatedAt = dateTime;
+            comment.createdAt = dateTime;
+            comment.updatedAt = dateTime;
 
-        addComment(comment);
+            addComment(comment);
 
-        setComment({ ...comment, message: '', createdAt: '', updatedAt: '' });
+            setComment({ ...comment, message: '', createdAt: '', updatedAt: '' });
+        }
     }
 
     const onChangeTagName = (event: any) => {
+        if (comment.message !== "") {
+            setIsError(false);
+            setHelperText("");
+        }
         setComment({ ...comment, message: event.target.value });
     }
     return (
-        <form className={classes.root}>
+        <form className={classes.root} >
             <FormControl className={classes.formControlTextField}>
                 <TextField
                     id="multiline"
+                    error={isError}
+                    helperText={helperText}
+                    required
                     label="Add comment"
                     multiline
                     rows={4}

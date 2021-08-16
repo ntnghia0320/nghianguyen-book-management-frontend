@@ -2,7 +2,7 @@ import axios from "axios";
 import authHeader from "./auth-header";
 import currentUser from "./user-info";
 
-const API_URL = "https://nghianguyen-bookmanagement.herokuapp.com/api/comments";
+const API_URL = "http://localhost:8080/api/comments";
 
 // const getAllBook = async (orderBy: string, order: string, page: number, size: number, param: string) => {
 //     const response = await axios.get(API_URL + `?orderBy=${orderBy}&order=${order}&page=${page}&size=${size}&${param}`);
@@ -39,8 +39,8 @@ const addComment = async (comment: Comment, bookId: number) => {
     return response;
 };
 
-const updateComment = async (comment: Comment, commentId: number, userId: number | undefined) => {
-    const response = await axios.put(API_URL + `/${commentId}/${userId}`, JSON.stringify(comment), { headers: authHeader() });
+const updateComment = async (comment: Comment, commentId: number, userId: number | undefined, bookId: number | undefined) => {
+    const response = await axios.put(API_URL + `/${commentId}/${userId}/${bookId}`, JSON.stringify(comment), { headers: authHeader() });
     return response.data;
 };
 

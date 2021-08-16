@@ -2,7 +2,7 @@ import axios from "axios";
 import authHeader from "./auth-header";
 import currentUser from "./user-info";
 
-const API_URL = "https://nghianguyen-bookmanagement.herokuapp.com/api/books";
+const API_URL = "http://localhost:8080/api/books";
 
 const getAllBook = async (orderBy: string, order: string, page: number, size: number, param: string) => {
     const response = await axios.get(API_URL + `?orderBy=${orderBy}&order=${order}&page=${page}&size=${size}&${param}`);

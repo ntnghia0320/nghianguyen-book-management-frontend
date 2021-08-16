@@ -89,6 +89,8 @@ const reducer = (state: State, action: Action): State => {
 export default function Login() {
     const classes = useStyles();
     const [state, dispatch] = useReducer(reducer, initialState);
+    const [helperText, setHelperText] = React.useState<String>("");
+    const [isError, setIsError] = React.useState<boolean>(false);
     const history = useHistory();
 
     useEffect(() => {
@@ -118,10 +120,17 @@ export default function Login() {
                 }, 1000);
             },
             (error) => {
-                dispatch({
-                    type: 'loginFailed',
-                    payload: 'Email or password incorect'
-                });
+                if (error.response.data.message === "User is disabled") {
+                    dispatch({
+                        type: 'loginFailed',
+                        payload: error.response.data.message
+                    });
+                } else {
+                    dispatch({
+                        type: 'loginFailed',
+                        payload: "Email or password is incorect"
+                    });
+                }
             }
         );
     };
@@ -134,10 +143,22 @@ export default function Login() {
 
     const handleUsernameChange: React.ChangeEventHandler<HTMLInputElement> =
         (event) => {
-            dispatch({
-                type: 'setUsername',
-                payload: event.target.value
-            });
+            if (validateEmail(event.target.value)) {
+                dispatch({
+                    type: 'setUsername',
+                    payload: event.target.value
+                });
+
+                setIsError(false);
+                setHelperText("");
+            } else {
+                setIsError(true);
+                setHelperText("Email is not valid");
+                dispatch({
+                    type: 'setIsButtonDisabled',
+                    payload: true
+                });
+            }
         };
 
     const handlePasswordChange: React.ChangeEventHandler<HTMLInputElement> =
@@ -148,6 +169,11 @@ export default function Login() {
             });
         }
 
+    const validateEmail = (email: string) => {
+        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+    }
+
     return (
         <>
             <form className={classes.container} noValidate>
@@ -157,6 +183,8 @@ export default function Login() {
                         <div>
                             <TextField
                                 required
+                                error={isError}
+                                helperText={helperText}
                                 fullWidth
                                 id="username"
                                 type="email"

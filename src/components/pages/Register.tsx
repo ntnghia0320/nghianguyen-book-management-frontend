@@ -113,10 +113,12 @@ const reducer = (state: State, action: Action): State => {
 export default function Register() {
     const classes = useStyles();
     const [state, dispatch] = useReducer(reducer, initialState);
+    const [helperText, setHelperText] = React.useState<String>("");
+    const [isError, setIsError] = React.useState<boolean>(false);
     const history = useHistory();
 
     useEffect(() => {
-        if (state.email.trim() && state.password.trim() && state.firstName.trim() && state.lastName.trim()) {
+        if (state.email.trim() && state.password.trim()) {
             dispatch({
                 type: 'setIsButtonDisabled',
                 payload: false
@@ -144,10 +146,15 @@ export default function Register() {
                 }, 1000);
             },
             (error) => {
-                dispatch({
-                    type: 'registerFailed',
-                    payload: error.response.data.message
-                });
+                if (String(error.response.data.message) === "This email address is already being used") {
+                    setIsError(true);
+                    setHelperText("This email address is already being used")
+                } else {
+                    dispatch({
+                        type: 'registerFailed',
+                        payload: error.response.data.message
+                    });
+                }
             }
         );
     };
@@ -184,10 +191,22 @@ export default function Register() {
 
     const handleEmailChange: React.ChangeEventHandler<HTMLInputElement> =
         (event) => {
-            dispatch({
-                type: 'setEmail',
-                payload: event.target.value
-            });
+            if (validateEmail(event.target.value)) {
+                dispatch({
+                    type: 'setEmail',
+                    payload: event.target.value
+                });
+
+                setIsError(false);
+                setHelperText("");
+            } else {
+                setIsError(true);
+                setHelperText("Email is not valid");
+                dispatch({
+                    type: 'setIsButtonDisabled',
+                    payload: true
+                });
+            }
         };
 
     const handlePasswordChange: React.ChangeEventHandler<HTMLInputElement> =
@@ -198,6 +217,10 @@ export default function Register() {
             });
         }
 
+    const validateEmail = (email: string) => {
+        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+    }
     return (
         <>
             <form className={classes.container} noValidate>
@@ -206,7 +229,6 @@ export default function Register() {
                     <CardContent>
                         <div>
                             <TextField
-                                required
                                 fullWidth
                                 id="firstName"
                                 type="text"
@@ -217,7 +239,6 @@ export default function Register() {
                                 onKeyPress={handleKeyPress}
                             />
                             <TextField
-                                required
                                 fullWidth
                                 id="lastName"
                                 type="text"
@@ -239,6 +260,8 @@ export default function Register() {
                             />
                             <TextField
                                 required
+                                error={isError}
+                                helperText={helperText}
                                 fullWidth
                                 id="email"
                                 type="email"

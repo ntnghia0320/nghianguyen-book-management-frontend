@@ -35,6 +35,8 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function EditComment({ reload, commentId }: Props) {
     const classes = useStyles();
     const [comment, setComment] = React.useState<Comment>({} as Comment);
+    const [helperText, setHelperText] = React.useState<String>("");
+    const [isError, setIsError] = React.useState<boolean>(false);
     const [activeSnackBar, setActiveSnackBar] = React.useState(false);
     const [snackBarMessage, setSnackBarMessage] = React.useState('');
     const [snackBarStatus, setSnackBarStatus] = React.useState('');
@@ -48,43 +50,55 @@ export default function EditComment({ reload, commentId }: Props) {
 
             }
         )
-    }, []);
+    }, [commentId]);
 
     const submit = (event: any) => {
         event.preventDefault();
+        if (comment.message === "") {
+            setIsError(true);
+            setHelperText("Comment must not be null")
+        } else {
 
-        const today = new Date();
-        const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-        const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        const dateTime = date + ' ' + time;
+            const today = new Date();
+            const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+            const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            const dateTime = date + ' ' + time;
 
-        comment.updatedAt = dateTime;
+            comment.updatedAt = dateTime;
 
-        // commentService.updateBook(book, bookId, book.user?.id).then(
-        //     () => {
-        //         setActiveSnackBar(!activeSnackBar);
-        //         setSnackBarMessage('Edit book Success');
-        //         setSnackBarStatus('success');
-        //         window.setTimeout(function () {
-        //             reload();
-        //         }, 1000);
-        //     },
-        //     (error) => {
-        //         setActiveSnackBar(!activeSnackBar);
-        //         setSnackBarMessage(error.response.data.message);
-        //         setSnackBarStatus('error');
-        //     }
-        // );
+            commentService.updateComment(comment, commentId, comment.user?.id, comment.book?.id).then(
+                () => {
+                    setActiveSnackBar(!activeSnackBar);
+                    setSnackBarMessage('Edit book Success');
+                    setSnackBarStatus('success');
+                    window.setTimeout(function () {
+                        reload();
+                    }, 1000);
+                },
+                (error) => {
+                    setActiveSnackBar(!activeSnackBar);
+                    setSnackBarMessage(error.response.data.message);
+                    setSnackBarStatus('error');
+                }
+            );
+        }
     }
 
     const onChangeTagName = (event: any) => {
+        if (comment.message !== "") {
+            setIsError(false);
+            setHelperText("");
+        }
         setComment({ ...comment, message: event.target.value });
     }
     return (
         <form className={classes.root}>
             <FormControl className={classes.formControlTextField}>
                 <TextField
-                    focused
+                    autoFocus
+                    required
+                    error={isError}
+                    helperText={helperText}
                     id="multiline"
                     label="Edit comment"
                     multiline

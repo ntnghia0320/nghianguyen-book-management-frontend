@@ -15,14 +15,13 @@ import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
 import getCurrentUser from "../../services/user-info";
 import Typography from "@material-ui/core/Typography";
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import CloseIcon from '@material-ui/icons/Close';
 import Modal from "@material-ui/core/Modal";
 import Fade from "@material-ui/core/Fade";
 import Backdrop from "@material-ui/core/Backdrop";
 import EditComment from "../common/EditComment";
+import Close from "@material-ui/icons/Close";
+import Edit from "@material-ui/icons/Edit";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -109,7 +108,6 @@ export default function BookDetail() {
     const [change, setChange] = React.useState(false);
     const [openDialog, setOpenDialog] = React.useState(false);
     const [commentId, setCommentId] = React.useState(0);
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [isModalEditCommentOpen, setIsModalEditCommentOpen] = React.useState(false);
 
     React.useEffect(() => {
@@ -139,7 +137,7 @@ export default function BookDetail() {
                 reload();
             },
             (error) => {
-                alert(error.message);
+                alert(error.response.data.message);
             }
         )
     }
@@ -147,12 +145,10 @@ export default function BookDetail() {
     const reload = () => {
         setChange(!change);
         closeModalEditComment();
-        handleClose();
     }
 
     const deleteComment = (commentId: any) => {
         setCommentId(commentId);
-        handleClose();
         setOpenDialog(true);
     }
 
@@ -166,7 +162,7 @@ export default function BookDetail() {
                 reload();
             },
             (error) => {
-                alert(error.message)
+                alert(error.response.data.message)
             }
         );
         setOpenDialog(false);
@@ -175,14 +171,6 @@ export default function BookDetail() {
     const handleNotSure = () => {
         setOpenDialog(false);
     }
-
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
 
     const openModalEditComment = () => {
         setIsModalEditCommentOpen(true);
@@ -226,7 +214,7 @@ export default function BookDetail() {
                     )}
                     <div>
                         {comments && comments.map(comment => (
-                            <div className={classes.listComment}>
+                            <div className={classes.listComment} key={comment.id}>
                                 <Typography variant="h6" gutterBottom>{comment.user?.email}</Typography>
                                 <Typography variant="caption" gutterBottom>{comment.createdAt}</Typography>
                                 <Typography variant="subtitle1" gutterBottom>
@@ -234,19 +222,23 @@ export default function BookDetail() {
                                     {((getCurrentUser() && comment.user?.id === getCurrentUser().userId)
                                         || comment.user?.role?.name === "ROLE_ADMIN") && (
                                             <>
-                                                <IconButton aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-                                                    <MoreHorizIcon />
-                                                </IconButton>
-                                                <Menu
-                                                    id="simple-menu"
-                                                    anchorEl={anchorEl}
-                                                    keepMounted
-                                                    open={Boolean(anchorEl)}
-                                                    onClose={handleClose}
+                                                <IconButton
+                                                    color="primary"
+                                                    aria-controls="simple-menu"
+                                                    aria-haspopup="true"
+                                                    onClick={() => editComment(comment.id)}
                                                 >
-                                                    <MenuItem onClick={() => deleteComment(comment.id)}>Delete</MenuItem>
-                                                    <MenuItem onClick={() => editComment(comment.id)}>Edit</MenuItem>
-                                                </Menu>
+                                                    <Edit />
+                                                </IconButton>
+
+                                                <IconButton
+                                                    color="secondary"
+                                                    aria-controls="simple-menu"
+                                                    aria-haspopup="true"
+                                                    onClick={() => deleteComment(comment.id)}
+                                                >
+                                                    <Close />
+                                                </IconButton>
                                             </>
                                         )
                                     }
