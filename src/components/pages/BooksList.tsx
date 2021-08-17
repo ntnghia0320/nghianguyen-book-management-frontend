@@ -236,10 +236,10 @@ export default function BooksList() {
         bookService.getAllBook(orderBy, order, page, rowsPerPage, param).then(
             (res) => {
                 setBooks(res.items);
-                setTotalRows(res.totalItems);
+                setTotalRows(res.totalResults);
             },
             (error) => {
-                alert(error.message);
+                alert(error.response.data.message);
             }
         );
         console.log('book list');
@@ -308,7 +308,7 @@ export default function BooksList() {
                 console.log('enabledBook');
             },
             (error) => {
-                alert(error.message)
+                alert(error.response.data.message)
             }
         );
     }

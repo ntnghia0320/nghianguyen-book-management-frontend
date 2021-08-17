@@ -116,7 +116,7 @@ export default function BookDetail() {
                 setBook(res);
             },
             (error) => {
-                alert(error.message);
+                alert(error.response.data.message);
             }
         );
 
@@ -125,7 +125,7 @@ export default function BookDetail() {
                 setComments(res);
             },
             (error) => {
-                alert(error.message);
+                alert(error.response.data.message);
             }
         );
         console.log('book detail');
@@ -220,7 +220,7 @@ export default function BookDetail() {
                                 <Typography variant="subtitle1" gutterBottom>
                                     {comment.message}
                                     {((getCurrentUser() && comment.user?.id === getCurrentUser().userId)
-                                        || comment.user?.role?.name === "ROLE_ADMIN") && (
+                                        || (getCurrentUser() && getCurrentUser().role === "ROLE_ADMIN")) && (
                                             <>
                                                 <IconButton
                                                     color="primary"

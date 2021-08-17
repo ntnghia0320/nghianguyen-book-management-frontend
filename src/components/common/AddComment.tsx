@@ -7,6 +7,7 @@ interface Props {
     addComment: AddComment;
 }
 
+
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
@@ -38,7 +39,7 @@ export default function AddComment({ addComment }: Props) {
     const submit = (event: any) => {
         event.preventDefault();
 
-        if (comment.message === "") {
+        if (comment.message === undefined || comment.message === "") {
             setIsError(true);
             setHelperText("Comment must not be null")
         } else {

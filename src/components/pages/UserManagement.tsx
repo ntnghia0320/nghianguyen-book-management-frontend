@@ -16,6 +16,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import userService from '../../services/user.service';
 import getCurrentUser from '../../services/user-info';
 import Typography from '@material-ui/core/Typography';
+import { useLocation } from 'react-router-dom';
 
 const StyledTableCell = withStyles((theme: Theme) =>
     createStyles({
@@ -60,19 +61,31 @@ export default function UserManagement() {
     const [openDialog, setOpenDialog] = React.useState(false);
     const [userId, setUserId] = React.useState(0);
     const [roleId, setRoleId] = React.useState(0);
+    const param = useLocation().search.substr(1);
 
     React.useEffect(() => {
-        userService.getUsers().then(
-            (res) => {
-                setUsers(res);
-            },
-            (error) => {
-                alert(error.message)
-            }
-        );
+        if (param) {
+            userService.getUsersByKeyword(param).then(
+                (res) => {
+                    setUsers(res);
+                },
+                (error) => {
+                    alert(error.response.data.messagee)
+                }
+            )
+        } else {
+            userService.getUsers().then(
+                (res) => {
+                    setUsers(res);
+                },
+                (error) => {
+                    alert(error.response.data.message)
+                }
+            );
+        }
 
         console.log('edit post list');
-    }, [change]);
+    }, [change, param]);
 
     const reload = () => {
         setChange(!change);

@@ -13,7 +13,7 @@ const useStyles = makeStyles({
     root: {
         margin: 'auto',
         height: 500,
-        marginTop: 10,
+        marginTop: 20,
         width: 345,
         backgroundColor: 'rgba(76, 175, 80, 0.2)',
     },
@@ -58,13 +58,12 @@ export default function CardBook({ book }: Prop) {
             </CardActionArea>
             <CardActions>
                 <Button
-                    size="small"
                     color="primary"
                     component={NavLink}
                     to={`/book/${book.id}`}
                     className={classes.cardButton}
                 >
-                    Learn More
+                    View
                 </Button>
             </CardActions>
         </Card>

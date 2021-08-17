@@ -46,7 +46,7 @@ export default function Home() {
         bookService.getAllBookEnabled(page - 1, param).then(
             (res) => {
                 setBooks(res.items);
-                setTotalPage(Math.ceil(res.totalItems / 8));
+                setTotalPage(Math.ceil(res.totalResults / 8));
             },
             (error) => {
                 alert(error.message)

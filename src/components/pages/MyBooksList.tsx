@@ -115,10 +115,10 @@ export default function MyBooksList() {
         bookService.getBooksByUserId(page, rowsPerPage, param).then(
             (res) => {
                 setBooks(res.items);
-                setTotalRows(res.totalItems);
+                setTotalRows(res.totalResults);
             },
             (error) => {
-                alert(error.message)
+                alert(error.response.data.message)
             }
         );
         console.log('my book list');

@@ -74,6 +74,7 @@ export default function AddBook({ reload }: Prop) {
             <div>
                 <FormControl className={classes.formControl}>
                     <TextField
+                        required
                         id="standard-basic"
                         label="Title"
                         name="title"
@@ -82,6 +83,7 @@ export default function AddBook({ reload }: Prop) {
                 </FormControl>
                 <FormControl className={classes.formControl}>
                     <TextField
+                        required
                         id="standard-basic"
                         label="Author"
                         name="author"
