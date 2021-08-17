@@ -15,7 +15,11 @@ const useStyles = makeStyles({
         height: 500,
         marginTop: 20,
         width: 345,
-        backgroundColor: 'rgba(76, 175, 80, 0.2)',
+        backgroundColor: 'rgba(255, 255, 255, 0.06)',
+        backdropFilter: 'blur(25px)',
+        boxShadow: '20px 20px 22px rgba(0, 0, 0, 0.2)',
+        border: '2px solid rgba(255,255,255,0.1)',
+        color: '#000000'
     },
     media: {
         height: 350,
@@ -24,10 +28,11 @@ const useStyles = makeStyles({
     cardButton: {
         textTransform: 'none',
         marginLeft: 'auto',
-        color: 'rgb(114 137 198 / 1)',
+        color: '#000000'
     },
     cardContent: {
         height: 70,
+        color: '#000000'
     }
 });
 
@@ -51,7 +56,7 @@ export default function CardBook({ book }: Prop) {
                     <Typography gutterBottom variant="h5" component="h2">
                         {book.title}
                     </Typography>
-                    <Typography variant="body2" color="textSecondary" component="p">
+                    <Typography variant="body2" component="p">
                         {book.author}
                     </Typography>
                 </CardContent>

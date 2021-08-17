@@ -24,15 +24,19 @@ const useStyles = makeStyles((theme: Theme) =>
             marginTop: theme.spacing(2),
             flexGrow: 1,
             color: '#333333',
-            background: 'linear-gradient(45deg, #f8e7cd 30%, #e6d5c5 90%)',
+            backgroundColor: '#d2bba6',
+            '&:hover': {
+                backgroundColor: '#d2bba6',
+            },
         },
         header: {
             textAlign: 'center',
-            background: 'linear-gradient(45deg, #f8e7cd 30%, #e6d5c5 90%)',
+            backgroundColor: '#d2bba6',
             color: '#333333'
         },
         card: {
-            marginTop: theme.spacing(10)
+            marginTop: theme.spacing(10),
+            background: 'linear-gradient(45deg, #f8e7cd 30%, #e6d5c5 90%)',
         },
     })
 );

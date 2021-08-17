@@ -18,21 +18,25 @@ const useStyles = makeStyles((theme: Theme) =>
             flexWrap: 'wrap',
             width: 400,
             maxWidth: '100%',
-            margin: `${theme.spacing(0)} auto`
+            margin: `${theme.spacing(0)} auto`,
         },
         loginBtn: {
             marginTop: theme.spacing(2),
             flexGrow: 1,
             color: '#333333',
-            background: 'linear-gradient(45deg, #f8e7cd 30%, #e6d5c5 90%)',
+            backgroundColor: '#d2bba6',
+            '&:hover': {
+                backgroundColor: '#d2bba6',
+            },
         },
         header: {
             textAlign: 'center',
-            background: 'linear-gradient(45deg, #f8e7cd 30%, #e6d5c5 90%)',
-            color: '#333333'
+            color: '#333333',
+            backgroundColor: '#d2bba6'
         },
         card: {
-            marginTop: theme.spacing(10)
+            marginTop: theme.spacing(10),
+            background: 'linear-gradient(45deg, #f8e7cd 30%, #e6d5c5 90%)',
         },
     })
 );

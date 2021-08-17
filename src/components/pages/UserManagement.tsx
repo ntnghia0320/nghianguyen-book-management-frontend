@@ -26,7 +26,8 @@ const StyledTableCell = withStyles((theme: Theme) =>
         },
         body: {
             fontSize: 14,
-            wordWrap: 'break-word'
+            wordWrap: 'break-word',
+            backgroundColor: '#ffffff'
         },
     }),
 )(TableCell);

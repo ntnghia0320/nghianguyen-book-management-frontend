@@ -29,6 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
             flexGrow: 1,
             width: '100%',
             display: 'block',
+            backdropFilter: 'blur(15px)'
         },
         paper: {
             flexGrow: 1,
@@ -38,7 +39,7 @@ const useStyles = makeStyles((theme: Theme) =>
             backgroundColor: 'transparent',
             border: 'none',
             boxShadow: 'none',
-            textAlign: 'center'
+            textAlign: 'center',
         },
         image: {
             maxWidth: '100%'

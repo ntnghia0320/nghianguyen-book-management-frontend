@@ -9,16 +9,21 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
+      background: 'url(https://www.teahub.io/photos/full/190-1905219_vintage-wallpaper-hd-books.jpg) no-repeat center center fixed',
+      backgroundSize: 'cover'
     },
     header: {
       textAlign: 'center',
-      borderRadius: 0
+      borderRadius: 0,
+      backgroundColor: 'rgba(255, 255, 255, 0.06)'
     },
     main: {
       textAlign: 'center',
       minHeight: '92vh',
       maxWidth: '100%',
       borderRadius: 0,
+      // backgroundImage: 'linear-gradient(to bottom right, #667eea, #764ba2)'
+      backgroundColor: 'rgba(255, 255, 255, 0.06)'
     },
   }),
 );

@@ -20,6 +20,11 @@ const useStyles = makeStyles((theme: Theme) =>
     grow: {
       flexGrow: 1,
       height: '8vh',
+      backgroundColor: 'rgba(255, 255, 255, 0.06)',
+    },
+    appBar: {
+      backgroundColor: 'rgba(255, 255, 255, 0.06)',
+      color: '#000000',
     },
     menuButton: {
       marginRight: theme.spacing(2),
@@ -32,6 +37,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     search: {
       position: 'relative',
+      border: '2px solid #caa79b',
       borderRadius: theme.shape.borderRadius,
       backgroundColor: alpha(theme.palette.common.white, 0.15),
       '&:hover': {
@@ -80,7 +86,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     highlighted: {
-      color: '#F2B97E'
+      color: '#8d6e63'
     },
   }),
 );
@@ -264,7 +270,10 @@ export default function Header() {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="static">
+      <AppBar
+        className={classes.appBar}
+        position="sticky"
+      >
         <Toolbar>
           <IconButton
             color="inherit"

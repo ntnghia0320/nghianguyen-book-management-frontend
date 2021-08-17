@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
             textTransform: 'none',
             marginTop: theme.spacing(1),
             marginLeft: theme.spacing(2),
+            color: '#be9c91'
         }
     }),
 );
@@ -86,7 +87,6 @@ export default function AddComment({ addComment }: Props) {
                 <Button
                     type="submit"
                     variant="outlined"
-                    color="primary"
                     onClick={(event) => submit(event)}
                 >
                     Add Comment

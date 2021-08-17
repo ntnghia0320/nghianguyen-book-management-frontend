@@ -173,17 +173,17 @@ const useStyles = makeStyles((theme: Theme) =>
         inActive: {
             color: 'white',
             "&:hover": {
-                color: 'red',
+                color: '#8bf6ff',
             },
             '&$active': {
-                color: 'red',
+                color: '#8bf6ff',
             },
         },
         active: {
-            color: "red",
+            color: "#8bf6ff",
         },
         icon: {
-            color: 'red !important'
+            color: '#8bf6ff !important'
         },
         search: {
             borderRadius: theme.shape.borderRadius,
