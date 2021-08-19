@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme: Theme) =>
                 width: '100%',
                 margin: 'auto',
             },
-            width: '88%',
+            width: '95%',
         },
         formControlTextField: {
             width: '100%',
@@ -42,7 +42,7 @@ export default function AddComment({ addComment }: Props) {
 
         if (comment.message === undefined || comment.message === "") {
             setIsError(true);
-            setHelperText("Comment must not be null")
+            setHelperText("Comment must not be empty")
         } else {
             const today = new Date();
             const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
@@ -66,10 +66,11 @@ export default function AddComment({ addComment }: Props) {
         setComment({ ...comment, message: event.target.value });
     }
     return (
-        <form className={classes.root} >
+        <form className={classes.root} noValidate>
             <FormControl className={classes.formControlTextField}>
                 <TextField
                     id="multiline"
+                    autoComplete='off'
                     error={isError}
                     helperText={helperText}
                     required

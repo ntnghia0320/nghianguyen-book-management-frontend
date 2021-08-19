@@ -19,12 +19,12 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     grow: {
       flexGrow: 1,
-      height: '8vh',
       backgroundColor: 'rgba(255, 255, 255, 0.06)',
     },
     appBar: {
       backgroundColor: 'rgba(255, 255, 255, 0.06)',
       color: '#000000',
+      height: 60,
     },
     menuButton: {
       marginRight: theme.spacing(2),
@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '100%',
       [theme.breakpoints.up('sm')]: {
         marginLeft: theme.spacing(3),
-        width: 'auto',
+        width: '25%',
       },
     },
     searchIcon: {
@@ -70,7 +70,7 @@ const useStyles = makeStyles((theme: Theme) =>
       transition: theme.transitions.create('width'),
       width: '100%',
       [theme.breakpoints.up('md')]: {
-        width: '20ch',
+        width: '30ch',
       },
     },
     sectionDesktop: {

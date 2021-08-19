@@ -64,7 +64,7 @@ interface HeadCell {
 const headCells: HeadCell[] = [
     { id: 'title', numeric: false, disablePadding: false, label: 'Title' },
     { id: 'author', numeric: true, disablePadding: false, label: 'Author' },
-    { id: 'createdAt', numeric: true, disablePadding: false, label: 'CreatedAt' },
+    { id: 'createdAt', numeric: true, disablePadding: false, label: 'Created At' },
     { id: 'enabled', numeric: true, disablePadding: false, label: 'Status' },
 ];
 
@@ -167,7 +167,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         buttonDialog: {
             '&:focus': {
-                backgroundColor: '#b2b8e1',
+                backgroundColor: '#e0dede96',
             },
         },
         inActive: {
@@ -454,7 +454,7 @@ export default function BooksList() {
                     <Button className={classes.buttonDialog} onClick={handleNotSure} color="primary">
                         No
                     </Button>
-                    <Button className={classes.buttonDialog} onClick={handleSure} color="primary" autoFocus>
+                    <Button className={classes.buttonDialog} onClick={handleSure} color="secondary" autoFocus>
                         Yes
                     </Button>
                 </DialogActions>

@@ -56,7 +56,7 @@ export default function EditComment({ reload, commentId }: Props) {
         event.preventDefault();
         if (comment.message === "") {
             setIsError(true);
-            setHelperText("Comment must not be null")
+            setHelperText("Comment must not be empty")
         } else {
 
             const today = new Date();
@@ -92,9 +92,10 @@ export default function EditComment({ reload, commentId }: Props) {
         setComment({ ...comment, message: event.target.value });
     }
     return (
-        <form className={classes.root}>
+        <form className={classes.root} noValidate>
             <FormControl className={classes.formControlTextField}>
                 <TextField
+                    autoComplete='off'
                     autoFocus
                     required
                     error={isError}

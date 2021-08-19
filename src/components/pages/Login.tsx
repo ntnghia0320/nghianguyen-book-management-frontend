@@ -187,6 +187,7 @@ export default function Login() {
                         <div>
                             <TextField
                                 required
+                                autoComplete='off'
                                 error={isError}
                                 helperText={helperText}
                                 fullWidth
@@ -200,6 +201,7 @@ export default function Login() {
                             />
                             <TextField
                                 required
+                                autoComplete='off'
                                 fullWidth
                                 id="password"
                                 type="password"

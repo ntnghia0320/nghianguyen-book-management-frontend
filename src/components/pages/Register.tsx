@@ -52,6 +52,7 @@ type State = {
     isButtonDisabled: boolean
     message: string
     activeSnackBar: boolean
+    status: string
 };
 
 const initialState: State = {
@@ -62,7 +63,8 @@ const initialState: State = {
     password: '',
     isButtonDisabled: true,
     message: '',
-    activeSnackBar: false
+    activeSnackBar: false,
+    status: ''
 };
 
 type Action = { type: 'setFirstName', payload: string }
@@ -71,7 +73,8 @@ type Action = { type: 'setFirstName', payload: string }
     | { type: 'setEmail', payload: string }
     | { type: 'setPassword', payload: string }
     | { type: 'setIsButtonDisabled', payload: boolean }
-    | { type: 'registerFailed', payload: string };
+    | { type: 'registerFailed', payload: string }
+    | { type: 'registerSuccess', payload: string }
 
 const reducer = (state: State, action: Action): State => {
     switch (action.type) {
@@ -109,8 +112,17 @@ const reducer = (state: State, action: Action): State => {
             return {
                 ...state,
                 message: action.payload,
-                activeSnackBar: !state.activeSnackBar
+                activeSnackBar: !state.activeSnackBar,
+                status: 'error'
             };
+        case 'registerSuccess':
+            return {
+                ...state,
+                message: action.payload,
+                activeSnackBar: !state.activeSnackBar,
+                status: 'success'
+            };
+
     }
 }
 
@@ -145,6 +157,10 @@ export default function Register() {
 
         authService.register(userRegister).then(
             () => {
+                dispatch({
+                    type: 'registerSuccess',
+                    payload: 'Register success'
+                });
                 window.setTimeout(function () {
                     history.push('/login');
                 }, 1000);
@@ -233,6 +249,7 @@ export default function Register() {
                     <CardContent>
                         <div>
                             <TextField
+                                autoComplete='off'
                                 fullWidth
                                 id="firstName"
                                 type="text"
@@ -243,6 +260,7 @@ export default function Register() {
                                 onKeyPress={handleKeyPress}
                             />
                             <TextField
+                                autoComplete='off'
                                 fullWidth
                                 id="lastName"
                                 type="text"
@@ -253,6 +271,7 @@ export default function Register() {
                                 onKeyPress={handleKeyPress}
                             />
                             <TextField
+                                autoComplete='off'
                                 fullWidth
                                 id="avata"
                                 type="text"
@@ -263,6 +282,7 @@ export default function Register() {
                                 onKeyPress={handleKeyPress}
                             />
                             <TextField
+                                autoComplete='off'
                                 required
                                 error={isError}
                                 helperText={helperText}
@@ -276,6 +296,7 @@ export default function Register() {
                                 onKeyPress={handleKeyPress}
                             />
                             <TextField
+                                autoComplete='off'
                                 required
                                 fullWidth
                                 id="password"
@@ -301,7 +322,7 @@ export default function Register() {
                     </CardActions>
                 </Card>
             </form>
-            <CustomizedSnackbars active={state.activeSnackBar} status={'error'} autoHideDuration={4000} message={state.message} />
+            <CustomizedSnackbars active={state.activeSnackBar} status={state.status} autoHideDuration={4000} message={state.message} />
         </>
     );
 }

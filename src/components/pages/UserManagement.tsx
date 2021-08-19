@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         buttonDialog: {
             '&:focus': {
-                backgroundColor: '#b2b8e1',
+                backgroundColor: '#e0dede96',
             },
         },
     }),

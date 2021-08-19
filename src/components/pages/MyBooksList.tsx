@@ -92,7 +92,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         buttonDialog: {
             '&:focus': {
-                backgroundColor: '#b2b8e1',
+                backgroundColor: '#e0dede96',
             },
         },
     }),
@@ -368,7 +368,7 @@ export default function MyBooksList() {
                     <Button className={classes.buttonDialog} onClick={handleNotSure} color="primary">
                         No
                     </Button>
-                    <Button className={classes.buttonDialog} onClick={handleSure} color="primary" autoFocus>
+                    <Button className={classes.buttonDialog} onClick={handleSure} color="secondary" autoFocus>
                         Yes
                     </Button>
                 </DialogActions>

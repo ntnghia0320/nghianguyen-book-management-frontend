@@ -35,6 +35,10 @@ export default function EditBook({ bookId, reload }: Prop) {
     const [activeSnackBar, setActiveSnackBar] = React.useState(false);
     const [snackBarMessage, setSnackBarMessage] = React.useState('');
     const [snackBarStatus, setSnackBarStatus] = React.useState('');
+    const [helperTextTitle, setHelperTextTitle] = React.useState<String>("");
+    const [helperTextAuthor, setHelperTextAuthor] = React.useState<String>("");
+    const [isTitleError, setIsTitleError] = React.useState<boolean>(false);
+    const [isAuthorError, setIsAuthorError] = React.useState<boolean>(false);
     const [book, setBook] = React.useState(bookDefault);
 
     React.useEffect(() => {
@@ -57,35 +61,53 @@ export default function EditBook({ bookId, reload }: Prop) {
     const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        const today = new Date();
-        const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-        const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        const dateTime = date + ' ' + time;
-        book.updatedAt = dateTime;
+        if (book.title === undefined || book.title === "") {
+            setIsTitleError(true);
+            setHelperTextTitle("Title must not be empty")
+        } else if (book.author === undefined || book.author === "") {
+            setIsTitleError(false);
+            setHelperTextTitle("")
+            setIsAuthorError(true);
+            setHelperTextAuthor("Author must not be empty")
+        } else {
+            setIsTitleError(false);
+            setIsAuthorError(false);
+            setHelperTextTitle("")
+            setHelperTextAuthor("")
 
-        bookService.updateBook(book, bookId, book.user?.id).then(
-            () => {
-                setActiveSnackBar(!activeSnackBar);
-                setSnackBarMessage('Edit book Success');
-                setSnackBarStatus('success');
-                window.setTimeout(function () {
-                    reload();
-                }, 1000);
-            },
-            (error) => {
-                setActiveSnackBar(!activeSnackBar);
-                setSnackBarMessage(error.response.data.message);
-                setSnackBarStatus('error');
-            }
-        );
+            const today = new Date();
+            const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+            const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            const dateTime = date + ' ' + time;
+            book.updatedAt = dateTime;
+
+            bookService.updateBook(book, bookId, book.user?.id).then(
+                () => {
+                    setActiveSnackBar(!activeSnackBar);
+                    setSnackBarMessage('Edit book Success');
+                    setSnackBarStatus('success');
+                    window.setTimeout(function () {
+                        reload();
+                    }, 1000);
+                },
+                (error) => {
+                    setActiveSnackBar(!activeSnackBar);
+                    setSnackBarMessage(error.response.data.message);
+                    setSnackBarStatus('error');
+                }
+            );
+        }
     };
 
     return (
-        <form className={classes.root} onSubmit={onSubmit}>
+        <form className={classes.root} onSubmit={onSubmit} noValidate>
             <div>
                 <FormControl className={classes.formControl}>
                     <TextField
+                        autoComplete='off'
                         required
+                        error={isTitleError}
+                        helperText={helperTextTitle}
                         id="standard-basic"
                         label="Title"
                         name="title"
@@ -95,7 +117,10 @@ export default function EditBook({ bookId, reload }: Prop) {
                 </FormControl>
                 <FormControl className={classes.formControl}>
                     <TextField
+                        autoComplete='off'
                         required
+                        error={isAuthorError}
+                        helperText={helperTextAuthor}
                         id="standard-basic"
                         label="Author"
                         name="author"
@@ -105,6 +130,7 @@ export default function EditBook({ bookId, reload }: Prop) {
                 </FormControl>
                 <FormControl className={classes.formControl}>
                     <TextField
+                        autoComplete='off'
                         id="outlined-multiline-static"
                         name="description"
                         label="Description"
@@ -117,6 +143,7 @@ export default function EditBook({ bookId, reload }: Prop) {
                 </FormControl>
                 <FormControl className={classes.formControl}>
                     <TextField
+                        autoComplete='off'
                         id="standard-basic"
                         label="Link image"
                         name="image"

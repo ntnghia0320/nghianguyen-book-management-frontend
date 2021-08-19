@@ -27,9 +27,11 @@ const useStyles = makeStyles((theme: Theme) =>
             paddingBottom: theme.spacing(8)
         },
         pagination: {
+            borderRadius: 4,
             position: 'fixed',
             right: theme.spacing(2),
             bottom: theme.spacing(2),
+            backdropFilter: 'blur(5px)',
         },
     }),
 );

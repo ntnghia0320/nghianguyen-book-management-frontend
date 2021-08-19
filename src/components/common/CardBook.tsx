@@ -13,7 +13,7 @@ const useStyles = makeStyles({
     root: {
         margin: 'auto',
         height: 500,
-        marginTop: 20,
+        marginTop: 24,
         width: 345,
         backgroundColor: 'rgba(255, 255, 255, 0.06)',
         backdropFilter: 'blur(25px)',

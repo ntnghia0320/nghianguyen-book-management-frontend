@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
             flexGrow: 1,
             width: '100%',
             display: 'block',
-            backdropFilter: 'blur(15px)'
+            backgroundColor: '#fcecea',
         },
         paper: {
             flexGrow: 1,
@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme: Theme) =>
         addComment: {
             margin: theme.spacing(1),
             display: 'flex',
-            justifyContent: 'center',
+            justifyContent: 'left',
             width: "100%",
         },
         listComment: {
@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         buttonDialog: {
             '&:focus': {
-                backgroundColor: '#b2b8e1',
+                backgroundColor: '#e0dede96',
             },
         },
         modal: {
@@ -207,7 +207,7 @@ export default function BookDetail() {
                     </div>
                     <Divider />
                     <br />
-                    <Typography variant="h5" gutterBottom>Comment</Typography>
+                    <Typography style={{ float: 'left' }} variant="h4" gutterBottom>Comment</Typography>
                     {getCurrentUser() && (
                         <div className={classes.addComment}>
                             <AddComment addComment={addComment}></AddComment>
@@ -294,7 +294,7 @@ export default function BookDetail() {
                     <Button className={classes.buttonDialog} onClick={handleNotSure} color="primary">
                         No
                     </Button>
-                    <Button className={classes.buttonDialog} onClick={handleSure} color="primary" autoFocus>
+                    <Button className={classes.buttonDialog} onClick={handleSure} color="secondary" autoFocus>
                         Yes
                     </Button>
                 </DialogActions>
