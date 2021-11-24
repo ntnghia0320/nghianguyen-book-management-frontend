@@ -14,6 +14,7 @@ import getCurrentUser from '../services/user-info';
 import HomeIcon from '@material-ui/icons/Home';
 import { NavLink, Route, useHistory, useLocation } from 'react-router-dom';
 import authService from '../services/auth.service';
+import alanBtn from '@alan-ai/alan-sdk-web';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -101,6 +102,7 @@ export default function Header() {
   const currentUser = getCurrentUser();
   const history = useHistory();
   const path = useLocation().pathname;
+  const alanKey = '4124cd6258f726346dcc31e293a240b92e956eca572e1d8b807a3e2338fdd0dc/stage';
 
   React.useEffect(() => {
     if (currentUser) {
@@ -110,7 +112,50 @@ export default function Header() {
       setIsAdmin(false);
       setIsUser(false);
     }
+
+    alanBtn({
+      key: alanKey,
+      onCommand: ({ command }: any) => {
+        if (command === 'LearnPythonQuickly') {
+          history.push(path + "?keyword=Learn Python Quickly");
+        }
+
+        if (command === 'PythonProgrammingforBeginners') {
+          history.push(path + "?keyword=Python Programming for Beginners");
+        }
+
+        if (command === 'ReactCleanArchitecture') {
+          history.push(path + "?keyword=React Clean Architecture");
+        }
+
+        if (command === 'HarryPotterandtheSorcererStone') {
+          history.push(path + "?keyword=Harry Potter and the Sorcerer's Stone");
+        }
+
+        if (command === 'TheHobbit') {
+          history.push(path + "?keyword=The Hobbit");
+        }
+
+        if (command === 'TheLordoftheRings') {
+          history.push(path + "?keyword=The Lord of the Rings");
+        }
+
+        if (command === 'TheAlchemist') {
+          history.push(path + "?keyword=The Alchemist");
+        }
+
+        if (command === 'LincolntheUnknown') {
+          history.push(path + "?keyword=Lincoln the Unknown");
+        }
+
+        if (command === 'RichDadPoorDad') {
+          history.push(path + "?keyword=Rich Dad Poor Dad");
+        }
+
+      }
+    })
     console.log("header");
+    // eslint-disable-next-line
   }, [currentUser]);
 
   const isMenuOpen = Boolean(anchorEl);
