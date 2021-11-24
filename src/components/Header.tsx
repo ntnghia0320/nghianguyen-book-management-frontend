@@ -117,43 +117,61 @@ export default function Header() {
       key: alanKey,
       onCommand: ({ command }: any) => {
         if (command === 'LearnPythonQuickly') {
-          history.push(path + "?keyword=Learn Python Quickly");
+          history.push("/home?keyword=Learn Python Quickly");
         }
 
         if (command === 'PythonProgrammingforBeginners') {
-          history.push(path + "?keyword=Python Programming for Beginners");
+          history.push("/home?keyword=Python Programming for Beginners");
         }
 
         if (command === 'ReactCleanArchitecture') {
-          history.push(path + "?keyword=React Clean Architecture");
+          history.push("/home?keyword=React Clean Architecture");
         }
 
         if (command === 'HarryPotterandtheSorcererStone') {
-          history.push(path + "?keyword=Harry Potter and the Sorcerer's Stone");
+          history.push("/home?keyword=Harry Potter and the Sorcerer's Stone");
         }
 
         if (command === 'TheHobbit') {
-          history.push(path + "?keyword=The Hobbit");
+          history.push("/home?keyword=The Hobbit");
         }
 
         if (command === 'TheLordoftheRings') {
-          history.push(path + "?keyword=The Lord of the Rings");
+          history.push("/home?keyword=The Lord of the Rings");
         }
 
         if (command === 'TheAlchemist') {
-          history.push(path + "?keyword=The Alchemist");
+          history.push("/home?keyword=The Alchemist");
         }
 
         if (command === 'LincolntheUnknown') {
-          history.push(path + "?keyword=Lincoln the Unknown");
+          history.push("/home?keyword=Lincoln the Unknown");
         }
 
         if (command === 'RichDadPoorDad') {
-          history.push(path + "?keyword=Rich Dad Poor Dad");
+          history.push("/home?keyword=Rich Dad Poor Dad");
+        }
+
+        if (command === 'home') {
+          history.push("/home");
+        }
+
+        if (command === 'mybooklist') {
+          history.push("/my-books-list");
+        }
+
+        if (command === 'login') {
+          history.push("/login");
+        }
+
+        if (command === 'register') {
+          history.push("/login");
         }
 
       }
     })
+
+
     console.log("header");
     // eslint-disable-next-line
   }, [currentUser]);
