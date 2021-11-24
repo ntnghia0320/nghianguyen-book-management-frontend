@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.js": "https://ntnghia0320.github.io/nghianguyen-book-management-frontend/static/js/main.fae687af.chunk.js",
+    "main.js.map": "https://ntnghia0320.github.io/nghianguyen-book-management-frontend/static/js/main.fae687af.chunk.js.map",
+    "runtime-main.js": "https://ntnghia0320.github.io/nghianguyen-book-management-frontend/static/js/runtime-main.d6e780f1.js",
+    "runtime-main.js.map": "https://ntnghia0320.github.io/nghianguyen-book-management-frontend/static/js/runtime-main.d6e780f1.js.map",
+    "static/js/2.48b48f80.chunk.js": "https://ntnghia0320.github.io/nghianguyen-book-management-frontend/static/js/2.48b48f80.chunk.js",
+    "static/js/2.48b48f80.chunk.js.map": "https://ntnghia0320.github.io/nghianguyen-book-management-frontend/static/js/2.48b48f80.chunk.js.map",
+    "static/js/3.38821048.chunk.js": "https://ntnghia0320.github.io/nghianguyen-book-management-frontend/static/js/3.38821048.chunk.js",
+    "static/js/3.38821048.chunk.js.map": "https://ntnghia0320.github.io/nghianguyen-book-management-frontend/static/js/3.38821048.chunk.js.map",
+    "index.html": "https://ntnghia0320.github.io/nghianguyen-book-management-frontend/index.html",
+    "static/js/2.48b48f80.chunk.js.LICENSE.txt": "https://ntnghia0320.github.io/nghianguyen-book-management-frontend/static/js/2.48b48f80.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.d6e780f1.js",
+    "static/js/2.48b48f80.chunk.js",
+    "static/js/main.fae687af.chunk.js"
+  ]
+}
