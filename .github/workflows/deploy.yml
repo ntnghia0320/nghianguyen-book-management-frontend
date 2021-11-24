@@ -8,9 +8,13 @@ jobs:
     steps:
       - name: Git Checkout
         uses: actions/checkout@v2
+        
+      - name: Install yarn
+        run: npm install -g yarn
 
-      - name: Yarn Cache
-        uses: c-hive/gha-yarn-cache@v1
+      - name: Install project dependencies
+        if: steps.yarn-cache.outputs.cache-hit != 'true' # Over here!
+        run: yarn
 
       - name: Install dependencies
         run: yarn
