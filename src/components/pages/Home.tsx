@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
         pagination: {
             borderRadius: 4,
             position: 'fixed',
-            right: theme.spacing(2),
+            right: theme.spacing(12),
             bottom: theme.spacing(2),
             backdropFilter: 'blur(5px)',
         },
