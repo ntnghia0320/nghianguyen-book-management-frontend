@@ -165,7 +165,7 @@ export default function Header() {
         }
 
         if (command === 'register') {
-          history.push("/login");
+          history.push("/register");
         }
 
       }
