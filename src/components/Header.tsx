@@ -102,7 +102,7 @@ export default function Header() {
   const currentUser = getCurrentUser();
   const history = useHistory();
   const path = useLocation().pathname;
-  const alanKey = process.env.ALAN_KEY || '4124cd6258f726346dcc31e293a240b92e956eca572e1d8b807a3e2338fdd0dc/stage';
+  const alanKey = process.env.ALAN_KEY || '20879696e4305a1f0af7bd6f97b0ad112e956eca572e1d8b807a3e2338fdd0dc/stage';
 
   React.useEffect(() => {
     if (currentUser) {
